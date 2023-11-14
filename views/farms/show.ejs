@@ -12,7 +12,16 @@
         <li>市： <%= farm.city %></li>
         <li>メールアドレス： <%= farm.email %></li>
     </ul>
+    <h2>商品一覧</h2>
+    <ul>
+        <% for (const product of farm.products) { %>
+         <li><a href="/products/<%= product._id %>"><%= product.name  %></a></li>
+        <% } %>   
+    </ul>
     <a href="/farms/<%= farm._id %>/products/new">商品を追加する</a>
     <a href="/farms">農場一覧へ</a>
+    <form action="/farms/<%= farm._id %>" method="POST">
+        <button></button>
+    </form>
 </body>
 </html>

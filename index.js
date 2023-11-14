@@ -41,13 +41,13 @@ app.post(`/farms`, async (req, res) => {
 
 app.get('/farms/:id', async (req, res) => {	
     const farm = await Farm.findById(req.params.id).populate(`products`);
-    console.log(farm);
     res.render(`farms/show`, { farm })
 });
 
-app.get('/farms/:id/products/new', (req, res) => {
+app.get('/farms/:id/products/new', async (req, res) => {
     const { id } = req.params;
-    res.render(`products/new`, { categories, id });
+    const farm = await Farm.findById(id);
+    res.render(`products/new`, { categories, farm });
 });
 
 app.post('/farms/:id/products', async(req, res) => {
@@ -60,6 +60,11 @@ app.post('/farms/:id/products', async(req, res) => {
     await farm.save();
     await product.save();
     res.redirect(`/farms/${farm._id}`);
+});
+
+app.delete('/farms/:id', async(req, res) => {
+   await Farm.findByIdAndDelete(req.params.id);
+   res.redirect(`/farms`);
 });
 
 // Product関連
@@ -91,7 +96,7 @@ app.get('/products', async(req, res) => {
 
 app.get('/products/:id', async (req, res) => {
     const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body, {runValidators: true});
+    const product = await Product.findById(id).populate(`farm`, `name`);
     // Product.findOne({_id: id})としてもいいが、findByIdの方がシンプルに使える
     res.render(`products/show`, { product });
 });

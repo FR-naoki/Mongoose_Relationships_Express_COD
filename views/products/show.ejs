@@ -11,6 +11,7 @@
     <ul>
         <li>価格： <%= product.price %>円</li>
         <li>カテゴリ： <a href="/products?category=<%= product.category %>"><%= product.category %></a></li>
+        <li><a href="/farms/<%= product.farm._id %>">農場： <%= product.farm.name %></a></li>
     </ul>
     <a href="/products">商品一覧へ</a>
     <a href="/products/<%= product._id %>/edit">編集</a>
