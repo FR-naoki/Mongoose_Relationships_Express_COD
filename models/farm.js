@@ -25,5 +25,11 @@ const farmSchema = new Schema({
     ]
 });
 
+
+farmSchema.post(`findOneAndDelete`, async function (data) {
+    console.log(`POST middleware!!!`);
+    console.log(data);
+})
+
 const Farm = mongoose.model(`Farm`, farmSchema);
 module.exports = Farm;
